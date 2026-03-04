@@ -1,55 +1,36 @@
 # -*- mode: python ; coding: utf-8 -*-
-"""
-PyInstaller打包配置
-打包命令: pyinstaller AudioTranscriber.spec
-"""
-
-from PyInstaller.building.build_main import Analysis, PYZ, EXE, COLLECT
-import sys
-import os
 
 block_cipher = None
 
-# 项目根目录
-base_dir = os.path.abspath('.')
-
 a = Analysis(
     ['src/main.py'],
-    pathex=[base_dir],
+    pathex=['.'],
     binaries=[],
-    datas=[
-        # 包含模型目录（空目录也会包含）
-        ('models', 'models'),
-        # 包含资源文件
-        ('resources', 'resources'),
-    ],
+    datas=[],
     hiddenimports=[
-        # PyTorch相关
-        'torch',
-        'torchaudio',
-        # Whisper
         'whisper',
         'whisper.model',
         'whisper.tokenizer',
-        # 音频处理
+        'torch',
+        'torchaudio',
         'librosa',
         'soundfile',
-        # 科学计算
         'numpy',
         'scipy',
         'sklearn',
         'sklearn.cluster',
-        # NLP
         'jieba',
         'transformers',
-        # 其他
         'python-docx',
+        'PyQt6',
+        'PyQt6.QtCore',
+        'PyQt6.QtGui',
+        'PyQt6.QtWidgets',
     ],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
     excludes=[
-        # 排除不需要的模块减小体积
         'matplotlib',
         'PIL',
         'tkinter',
@@ -68,30 +49,22 @@ pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
 exe = EXE(
     pyz,
     a.scripts,
+    a.binaries,
+    a.zipfiles,
+    a.datas,
     [],
-    exclude_binaries=True,
     name='AudioTranscriber',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
     upx=True,
-    console=False,  # 不显示控制台窗口
+    upx_exclude=[],
+    runtime_tmpdir=None,
+    console=False,  # False = 不显示控制台窗口
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    # 图标（如果有）
-    # icon='resources/icon.ico',
-)
-
-coll = COLLECT(
-    exe,
-    a.binaries,
-    a.zipfiles,
-    a.datas,
-    strip=False,
-    upx=True,
-    upx_exclude=[],
-    name='AudioTranscriber'
+    # icon='resources/icon.ico',  # 如果有图标可以取消注释
 )
