@@ -1,0 +1,31 @@
+# 核心依赖
+PyQt6==6.6.1
+pyinstaller==6.3.0
+
+# 音频处理
+librosa==0.10.1
+soundfile==0.12.1
+ffmpeg-python==0.2.0
+
+# 语音识别
+openai-whisper==20231117
+torch==2.1.2
+torchaudio==2.1.2
+
+# 说话人分离
+pyannote.audio==3.1.1
+speechbrain==0.5.16
+
+# NLP处理
+keybert==0.8.3
+transformers==4.36.2
+sentence-transformers==2.2.2
+
+# 工具
+numpy==1.26.3
+pandas==2.1.4
+tqdm==4.66.1
+python-docx==1.1.0
+
+# 数据库
+sqlite3
